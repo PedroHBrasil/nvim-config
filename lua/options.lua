@@ -76,3 +76,6 @@ vim.opt.colorcolumn = { 80, 120 }
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
+
+-- Uses 24bit colors
+vim.opt.termguicolors = true
