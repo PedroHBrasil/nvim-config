@@ -1,93 +1,10 @@
 return {
   -- Theme
   {
-    'marko-cerovac/material.nvim',
-    -- 'ellisonleao/gruvbox.nvim',
+    'Shatur/neovim-ayu',
     priority = 1000,
-    config = true,
-    opts = {
-      contrast = {
-        terminal = true, -- Enable contrast for the built-in terminal
-        sidebars = true, -- Enable contrast for sidebar-like windows ( for example Nvim-Tree )
-        floating_windows = true, -- Enable contrast for floating windows
-        cursor_line = false, -- Enable darker background for the cursor line
-        lsp_virtual_text = true, -- Enable contrasted background for lsp virtual text
-        non_current_windows = true, -- Enable contrasted background for non-current windows
-        filetypes = {}, -- Specify which filetypes get the contrasted (darker) background
-      },
-
-      styles = { -- Give comments style such as bold, italic, underline etc.
-        comments = { italic = true },
-        strings = { --[[ bold = true ]]
-        },
-        keywords = { --[[ underline = true ]]
-        },
-        functions = { --[[ bold = true, undercurl = true ]]
-        },
-        variables = {},
-        operators = {},
-        types = {},
-      },
-
-      plugins = { -- Uncomment the plugins that you use to highlight them
-        -- Available plugins:
-        -- "coc",
-        'colorful-winsep',
-        -- "dap",
-        -- 'dashboard',
-        'eyeliner',
-        'fidget',
-        -- "flash",
-        'gitsigns',
-        -- "harpoon",
-        -- "hop",
-        -- "illuminate",
-        'indent-blankline',
-        -- "lspsaga",
-        -- "mini",
-        -- "neogit",
-        -- "neotest",
-        -- "neo-tree",
-        -- "neorg",
-        -- "noice",
-        'nvim-cmp',
-        -- "nvim-navic",
-        -- "nvim-tree",
-        'nvim-web-devicons',
-        'rainbow-delimiters',
-        -- "sneak",
-        'telescope',
-        -- "trouble",
-        'which-key',
-        -- "nvim-notify",
-      },
-
-      disable = {
-        colored_cursor = false, -- Disable the colored cursor
-        borders = false, -- Disable borders between vertically split windows
-        background = false, -- Prevent the theme from setting the background (NeoVim then uses your terminal background)
-        term_colors = false, -- Prevent the theme from setting terminal colors
-        eob_lines = false, -- Hide the end-of-buffer lines
-      },
-
-      high_visibility = {
-        lighter = false, -- Enable higher contrast text for lighter style
-        darker = true, -- Enable higher contrast text for darker style
-      },
-
-      lualine_style = 'default', -- Lualine style ( can be 'stealth' or 'default' )
-
-      async_loading = true, -- Load parts of the theme asynchronously for faster startup (turned on by default)
-
-      custom_colors = nil, -- If you want to override the default colors, set this to a function
-
-      custom_highlights = {}, -- Overwrite highlights with your own...,
-    },
     init = function()
-      vim.g.material_style = 'deep ocean'
-      vim.cmd [[colorscheme material]]
-      -- vim.o.background = 'dark'
-      -- vim.cmd [[colorscheme gruvbox]]
+      vim.cmd [[colorscheme ayu]]
     end,
   },
 
@@ -127,13 +44,16 @@ return {
       -- create the highlight groups in the highlight setup hook, so they are reset
       -- every time the colorscheme changes
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        vim.api.nvim_set_hl(0, 'RainbowRed', { fg = '#E06C75' })
-        vim.api.nvim_set_hl(0, 'RainbowYellow', { fg = '#E5C07B' })
-        vim.api.nvim_set_hl(0, 'RainbowBlue', { fg = '#61AFEF' })
-        vim.api.nvim_set_hl(0, 'RainbowOrange', { fg = '#D19A66' })
-        vim.api.nvim_set_hl(0, 'RainbowGreen', { fg = '#98C379' })
-        vim.api.nvim_set_hl(0, 'RainbowViolet', { fg = '#C678DD' })
-        vim.api.nvim_set_hl(0, 'RainbowCyan', { fg = '#56B6C2' })
+        local colors = require 'ayu.colors'
+        colors.generate(false)
+
+        vim.api.nvim_set_hl(0, 'RainbowRed', { fg = colors.markup })
+        vim.api.nvim_set_hl(0, 'RainbowYellow', { fg = colors.func })
+        vim.api.nvim_set_hl(0, 'RainbowBlue', { fg = colors.entity })
+        vim.api.nvim_set_hl(0, 'RainbowOrange', { fg = colors.operator })
+        vim.api.nvim_set_hl(0, 'RainbowGreen', { fg = colors.string })
+        vim.api.nvim_set_hl(0, 'RainbowViolet', { fg = colors.constant })
+        vim.api.nvim_set_hl(0, 'RainbowCyan', { fg = colors.regexp })
       end)
 
       vim.g.rainbow_delimiters = { highlight = highlight }
@@ -188,6 +108,45 @@ return {
       -- ignore. Feel free to remove this line after you've gotten Modicator to
       -- work properly.
       show_warnings = true,
+    },
+  },
+
+  -- Color visualization
+  {
+    'NvChad/nvim-colorizer.lua',
+    event = 'BufReadPre',
+    opts = {
+      filetypes = { '*' },
+      user_default_options = {
+        names = true, -- "Name" codes like Blue or blue
+        RGB = true, -- #RGB hex codes
+        RRGGBB = true, -- #RRGGBB hex codes
+        RRGGBBAA = false, -- #RRGGBBAA hex codes
+        AARRGGBB = false, -- 0xAARRGGBB hex codes
+        rgb_fn = false, -- CSS rgb() and rgba() functions
+        hsl_fn = false, -- CSS hsl() and hsla() functions
+        css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        -- Highlighting mode.  'background'|'foreground'|'virtualtext'
+        mode = 'background', -- Set the display mode
+        -- Tailwind colors.  boolean|'normal'|'lsp'|'both'.  True is same as normal
+        tailwind = false, -- Enable tailwind colors
+        -- parsers can contain values used in |user_default_options|
+        sass = { enable = false, parsers = { 'css' } }, -- Enable sass colors
+        -- Virtualtext character to use
+        virtualtext = '■',
+        -- Display virtualtext inline with color
+        virtualtext_inline = false,
+        -- Virtualtext highlight mode: 'background'|'foreground'
+        virtualtext_mode = 'foreground',
+        -- update color values even if buffer is not focused
+        -- example use: cmp_menu, cmp_docs
+        always_update = false,
+      },
+      -- all the sub-options of filetypes apply to buftypes
+      buftypes = {},
+      -- Boolean | List of usercommands to enable
+      user_commands = true, -- Enable all or some usercommands-- set to setup table
     },
   },
 }

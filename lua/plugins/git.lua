@@ -12,6 +12,29 @@ return {
     },
   },
 
+  -- Conflict solving
+  { 'akinsho/git-conflict.nvim', version = '*', config = true },
+
+  --Lazy Git
+  {
+    'kdheepak/lazygit.nvim',
+    lazy = false,
+    cmd = {
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require('telescope').load_extension 'lazygit'
+    end,
+  },
   -- Git UI
   -- {
   --   'SuperBo/fugit2.nvim',
