@@ -1,10 +1,43 @@
 return {
   -- Theme
+  -- {
+  --   'Shatur/neovim-ayu',
+  --   priority = 1000,
+  --   init = function()
+  --     vim.cmd [[colorscheme ayu]]
+  --   end,
+  -- },
+
   {
-    'Shatur/neovim-ayu',
+    'rebelot/kanagawa.nvim',
     priority = 1000,
     init = function()
-      vim.cmd [[colorscheme ayu]]
+      require('kanagawa').setup {
+        compile = false, -- enable compiling the colorscheme
+        undercurl = true, -- enable undercurls
+        commentStyle = { italic = true },
+        functionStyle = {},
+        keywordStyle = { italic = true },
+        statementStyle = { bold = true },
+        typeStyle = {},
+        transparent = false, -- do not set background color
+        dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+        terminalColors = true, -- define vim.g.terminal_color_{0,17}
+        colors = { -- add/modify theme and palette colors
+          palette = {},
+          theme = { wave = {}, lotus = {}, dragon = {}, all = { ui = { bg_gutter = 'none' } } },
+        },
+        overrides = function(colors) -- add/modify highlights
+          return {}
+        end,
+        theme = 'wave', -- Load "wave" theme when 'background' option is not set
+        background = { -- map the value of 'background' option to a theme
+          dark = 'wave', -- try "dragon" !
+          light = 'lotus',
+        },
+      }
+
+      vim.cmd 'colorscheme kanagawa'
     end,
   },
 
@@ -44,16 +77,16 @@ return {
       -- create the highlight groups in the highlight setup hook, so they are reset
       -- every time the colorscheme changes
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        local colors = require 'ayu.colors'
-        colors.generate(false)
+        local colors = require('kanagawa.colors').setup().palette
+        -- colors.generate(false)
 
-        vim.api.nvim_set_hl(0, 'RainbowRed', { fg = colors.markup })
-        vim.api.nvim_set_hl(0, 'RainbowYellow', { fg = colors.func })
-        vim.api.nvim_set_hl(0, 'RainbowBlue', { fg = colors.entity })
-        vim.api.nvim_set_hl(0, 'RainbowOrange', { fg = colors.operator })
-        vim.api.nvim_set_hl(0, 'RainbowGreen', { fg = colors.string })
-        vim.api.nvim_set_hl(0, 'RainbowViolet', { fg = colors.constant })
-        vim.api.nvim_set_hl(0, 'RainbowCyan', { fg = colors.regexp })
+        vim.api.nvim_set_hl(0, 'RainbowRed', { fg = colors.waveRed })
+        vim.api.nvim_set_hl(0, 'RainbowYellow', { fg = colors.autumnYellow })
+        vim.api.nvim_set_hl(0, 'RainbowBlue', { fg = colors.springBlue })
+        vim.api.nvim_set_hl(0, 'RainbowOrange', { fg = colors.surimiOrange })
+        vim.api.nvim_set_hl(0, 'RainbowGreen', { fg = colors.autumnGreen })
+        vim.api.nvim_set_hl(0, 'RainbowViolet', { fg = colors.oniViolet })
+        vim.api.nvim_set_hl(0, 'RainbowCyan', { fg = colors.lightBlue })
       end)
 
       vim.g.rainbow_delimiters = { highlight = highlight }

@@ -179,6 +179,15 @@ return {
       require('lspconfig').jsonls.setup {
         capabilities = capabilities,
       }
+      require('lspconfig').clangd.setup {
+        capabilities = capabilities,
+      }
+      require('lspconfig').rust_analyzer.setup {
+        capabilities = capabilities,
+      }
+      require('lspconfig').dartls.setup {
+        capabilities = capabilities,
+      }
     end,
   },
 
