@@ -53,7 +53,7 @@ return {
     ---@type ibl.config
     dependencies = { 'HiPhish/rainbow-delimiters.nvim' },
     -- Makes current scope indent line colored based on rainbow_delimiters
-    opts = function()
+    init = function()
       local highlight = {
         'RainbowRed',
         'RainbowYellow',
@@ -67,8 +67,7 @@ return {
       -- create the highlight groups in the highlight setup hook, so they are reset
       -- every time the colorscheme changes
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        local colors = require('kanagawa.colors').setup().palette
-        -- colors.generate(false)
+        local colors = require('kanagawa.colors').setup({ theme = 'wave' }).palette
 
         vim.api.nvim_set_hl(0, 'RainbowRed', { fg = colors.waveRed })
         vim.api.nvim_set_hl(0, 'RainbowYellow', { fg = colors.autumnYellow })
