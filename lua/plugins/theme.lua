@@ -1,13 +1,4 @@
 return {
-  -- Theme
-  -- {
-  --   'Shatur/neovim-ayu',
-  --   priority = 1000,
-  --   init = function()
-  --     vim.cmd [[colorscheme ayu]]
-  --   end,
-  -- },
-
   {
     'rebelot/kanagawa.nvim',
     priority = 1000,
@@ -60,10 +51,9 @@ return {
     main = 'ibl',
     ---@module "ibl"
     ---@type ibl.config
-    opts = {},
     dependencies = { 'HiPhish/rainbow-delimiters.nvim' },
     -- Makes current scope indent line colored based on rainbow_delimiters
-    init = function()
+    opts = function()
       local highlight = {
         'RainbowRed',
         'RainbowYellow',
