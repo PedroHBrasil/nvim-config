@@ -117,7 +117,7 @@ return {
   -- Line number theme
   {
     'mawkler/modicator.nvim',
-    dependencies = 'ellisonleao/gruvbox.nvim', -- Add your colorscheme plugin here
+    dependencies = 'rebelot/kanagawa.nvim', -- Add your colorscheme plugin here
     init = function()
       -- These are required for Modicator to work
       vim.o.cursorline = true
