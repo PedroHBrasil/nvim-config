@@ -241,6 +241,9 @@ return {
         jsonls = {},
         clangd = {},
         rust_analyzer = {},
+        tailwindcss = {},
+        eslint = {},
+        ts_ls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -259,6 +262,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'prettier',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -280,6 +284,9 @@ return {
       require('neodev').setup()
     end,
   },
+
+  -- ESLint
+  { 'esmuellert/nvim-eslint' },
 
   -- Autocompletion
   {
@@ -543,4 +550,15 @@ return {
 
   -- Easy time with (), [] and {}: Parinfer
   { 'gpanders/nvim-parinfer' },
+
+  -- Flutter development
+  {
+    'nvim-flutter/flutter-tools.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      -- 'stevearc/dressing.nvim',
+    },
+    config = true,
+  },
 }

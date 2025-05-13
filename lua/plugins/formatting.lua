@@ -35,8 +35,38 @@ return {
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        html = { 'prettier' },
+        css = { 'prettier' },
+        scss = { 'prettier' },
+        javascript = { 'prettier' },
+        typescript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        jsx = { 'prettier' },
+        tsx = { 'prettier' },
+        markdown = { 'prettier' },
+        json = { 'prettier' },
+        yaml = { 'prettier' },
+        rust = { 'rustfmt' },
       },
     },
+  },
+
+  {
+    'mfussenegger/nvim-lint',
+    setup = function()
+      require('lint').linters_by_ft = {
+        javascript = { 'eslint' },
+        typescript = { 'eslint' },
+        javascriptreact = { 'eslint' },
+        typescriptreact = { 'eslint' },
+      }
+
+      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+        callback = function()
+          require('lint').try_lint()
+        end,
+      })
+    end,
   },
 }
